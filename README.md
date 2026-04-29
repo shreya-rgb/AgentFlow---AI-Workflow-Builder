@@ -67,11 +67,14 @@ Runs at `http://localhost:3000`
 
 ## Deploying
 
-### Backend → Railway
-1. New project → Deploy from GitHub
+### Backend → Render (free)
+1. New Web Service → connect GitHub repo
 2. Root directory: `agent-flow-builder/backend`
-3. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
-4. Add env vars: `OPENAI_API_KEY`, `MOCK_MODE=false`
+3. Runtime: `Python 3`
+4. Build command: `pip install -r requirements.txt`
+5. Start command: `uvicorn main:app --host 0.0.0.0 --port $PORT`
+6. Instance type: `Free`
+7. Add env vars: `OPENAI_API_KEY`, `MOCK_MODE=false`
 
 ### Frontend → Vercel
 1. Import repo → Root directory: `agent-flow-builder/frontend`
