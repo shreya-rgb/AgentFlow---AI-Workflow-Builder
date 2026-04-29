@@ -2,7 +2,7 @@
 
 A visual drag-and-drop platform to build and run AI agent workflows in real-time. Connect agents together, hit Run, and watch AI execute each step live.
 
-**[🚀 Live Demo](https://agentflow-ai-workflow-builder-production.up.railway.app)**
+**[🚀 Live Demo](agent-flow-ai-workflow-builder.vercel.app)**
 
 ---
 
