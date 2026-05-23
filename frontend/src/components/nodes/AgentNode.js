@@ -61,20 +61,19 @@ const STATUS_CONFIG = {
   error: { icon: '❌', color: 'var(--red)', glow: 'var(--red-glow)', label: 'Error' },
 };
 
-function AgentNode({ id, data, selected }) {
-  const { setSelectedNode, nodeStatuses, nodes } = useWorkflowStore();
+function AgentNode({ id, data }) {
+  const { setSelectedNode, nodeStatuses, selectedNodeId } = useWorkflowStore();
   const config = NODE_CONFIG[data.nodeType] || NODE_CONFIG.writer;
   const status = nodeStatuses[id];
   const statusConfig = status ? STATUS_CONFIG[status.status] : null;
+  const selected = selectedNodeId === id;
 
   const isRunning = status?.status === 'running';
   const isDone = status?.status === 'done';
-  const isError = status?.status === 'error';
 
   const handleClick = useCallback(() => {
-    const node = nodes.find((n) => n.id === id);
-    setSelectedNode(node || null);
-  }, [id, nodes, setSelectedNode]);
+    setSelectedNode({ id });
+  }, [id, setSelectedNode]);
 
   const glowColor = statusConfig?.glow || (selected ? 'var(--accent-glow)' : 'transparent');
   const borderColor = statusConfig?.color || (selected ? 'var(--accent)' : 'var(--border)');

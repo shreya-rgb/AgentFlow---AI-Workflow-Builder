@@ -41,7 +41,13 @@ const PROMPT_PLACEHOLDERS = {
 };
 
 export default function ConfigPanel() {
-  const { selectedNode, updateNodeData, deleteNode, setSelectedNode, nodeStatuses } = useWorkflowStore();
+  const { selectedNode, updateNodeData, deleteNode, setSelectedNode, nodeStatuses } = useWorkflowStore((state) => ({
+    selectedNode: state.nodes.find((n) => n.id === state.selectedNodeId) || null,
+    updateNodeData: state.updateNodeData,
+    deleteNode: state.deleteNode,
+    setSelectedNode: state.setSelectedNode,
+    nodeStatuses: state.nodeStatuses,
+  }));
 
   const handleChange = useCallback(
     (field, value) => {

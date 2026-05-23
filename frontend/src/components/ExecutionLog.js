@@ -4,11 +4,27 @@ import useWorkflowStore from '@/store/workflowStore';
 
 function renderMarkdown(text) {
   if (!text) return '';
-  return text
+
+  // Escape HTML special chars first to prevent XSS
+  const escape = (s) =>
+    s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+  // 1. Handle fenced code blocks (```lang\n...\n```) BEFORE anything else
+  let result = text.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+    const langLabel = lang ? `<span style="font-size:10px;color:var(--text-muted);float:right">${escape(lang)}</span>` : '';
+    return `<pre style="background:var(--bg-secondary);border:1px solid var(--border);border-radius:6px;padding:10px 12px;overflow-x:auto;margin:6px 0">${langLabel}<code style="color:var(--text-primary);font-family:monospace;font-size:12px;white-space:pre">${escape(code.trimEnd())}</code></pre>`;
+  });
+
+  // 2. Inline formatting (only outside code blocks — already replaced above)
+  result = result
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\n/g, '<br/>');
+    .replace(/`([^`]+)`/g, '<code style="background:var(--bg-secondary);padding:1px 5px;border-radius:3px;font-family:monospace;color:var(--accent)">$1</code>');
+
+  // 3. Newlines → <br/> but not inside <pre> blocks
+  result = result.replace(/(?<!<\/pre>)\n(?!<pre)/g, '<br/>');
+
+  return result;
 }
 
 function LogEntry({ log, index }) {

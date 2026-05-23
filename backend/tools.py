@@ -14,7 +14,7 @@ async def web_search(query: str, max_results: int = 5) -> str:
             return results
 
         # Run in thread pool to avoid blocking
-        loop = asyncio.get_event_loop()
+        loop = asyncio.get_running_loop()
         results = await loop.run_in_executor(None, _search)
 
         if not results:
