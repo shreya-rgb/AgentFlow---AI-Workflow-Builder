@@ -23,6 +23,24 @@ export default function RunButton() {
       return;
     }
 
+    // Validate: must have at least one input node with text
+    const inputNodes = nodes.filter((n) => n.data.nodeType === 'input');
+    if (inputNodes.length === 0) {
+      alert('Your workflow needs a Text Input node as a starting point.');
+      return;
+    }
+    const emptyInputs = inputNodes.filter((n) => !n.data.inputText?.trim());
+    if (emptyInputs.length > 0) {
+      alert('Please fill in the Input Text for your Text Input node before running.');
+      return;
+    }
+
+    // Validate: nodes (except lone output) should be connected
+    if (nodes.length > 1 && edges.length === 0) {
+      alert('Your nodes are not connected. Draw connections between nodes before running.');
+      return;
+    }
+
     clearLogs();
     resetNodeStatuses();
     setIsRunning(true);

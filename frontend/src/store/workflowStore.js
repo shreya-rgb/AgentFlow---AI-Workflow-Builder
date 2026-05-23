@@ -5,7 +5,7 @@ const useWorkflowStore = create((set, get) => ({
   // ─── Canvas State ──────────────────────────────────────────────────────────
   nodes: [],
   edges: [],
-  selectedNode: null,
+  selectedNodeId: null,
 
   // ─── Execution State ───────────────────────────────────────────────────────
   isRunning: false,
@@ -45,12 +45,12 @@ const useWorkflowStore = create((set, get) => ({
     set({
       nodes: get().nodes.filter((n) => n.id !== nodeId),
       edges: get().edges.filter((e) => e.source !== nodeId && e.target !== nodeId),
-      selectedNode: get().selectedNode?.id === nodeId ? null : get().selectedNode,
+      selectedNodeId: get().selectedNodeId === nodeId ? null : get().selectedNodeId,
     });
   },
 
   setSelectedNode: (node) => {
-    set({ selectedNode: node });
+    set({ selectedNodeId: node ? node.id : null });
   },
 
   // ─── Execution Operations ──────────────────────────────────────────────────
@@ -86,7 +86,7 @@ const useWorkflowStore = create((set, get) => ({
       workflowTitle: title,
       nodes,
       edges,
-      selectedNode: null,
+      selectedNodeId: null,
       executionLogs: [],
       nodeStatuses: {},
     });
@@ -96,7 +96,7 @@ const useWorkflowStore = create((set, get) => ({
     set({
       nodes: [],
       edges: [],
-      selectedNode: null,
+      selectedNodeId: null,
       executionLogs: [],
       nodeStatuses: {},
       workflowTitle: 'Untitled Workflow',
