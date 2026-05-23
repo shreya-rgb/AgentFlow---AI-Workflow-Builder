@@ -2,7 +2,8 @@ services:
   - type: web
     name: agentflow-backend
     runtime: python
-    rootDir: agent-flow-builder/backend
+    rootDir: backend
+    pythonVersion: "3.12.3"
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -10,5 +11,3 @@ services:
         sync: false
       - key: MOCK_MODE
         value: false
-      - key: PYTHON_VERSION
-        value: 3.12.3
